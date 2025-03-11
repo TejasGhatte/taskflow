@@ -3,17 +3,12 @@ import { Task } from '../types/task';
 interface TaskListProps {
   tasks: Task[];
   isLoading: boolean;
-  error: string | null;
   onDeleteTask: (id: string) => void;
 }
 
-const TaskList = ({ tasks, isLoading, error, onDeleteTask } : TaskListProps) => {
+const TaskList = ({ tasks, isLoading, onDeleteTask } : TaskListProps) => {
   if (isLoading) {
     return <p className="text-gray-600">Loading tasks...</p>;
-  }
-
-  if (error) {
-    return <p className="p-3 mb-4 text-red-700 bg-red-100 rounded-md">{error}</p>;
   }
 
   if (tasks.length === 0) {

@@ -11,15 +11,12 @@ import TaskForm from '../components/TaskForm';
 const Dashboard = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
   const fetchTasks = async (): Promise<void> => {
     try {
       setIsLoading(true);
       const response = await getHandler(`/tasks`);
       if (response.statusCode === 200) {
         setTasks(response.data.tasks);
-        setError(null);
       } else {
         if (response.data.message !== '') Toaster.error(response.data.message || response.data.error);
         Toaster.error(SERVER_ERROR);
@@ -73,8 +70,7 @@ const Dashboard = () => {
           <h2 className="mb-4 text-2xl font-semibold text-gray-700">Your Tasks</h2>
           <TaskList 
             tasks={tasks} 
-            isLoading={isLoading} 
-            error={error} 
+            isLoading={isLoading}  
             onDeleteTask={deleteTask} 
           />
         </section>

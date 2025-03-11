@@ -18,6 +18,8 @@ The application consists of a React frontend for the user interface and a Flask 
 - In-memory task storage with server-side persistence
 - RESTful API for task operations
 
+![Dashboard View](./public/dashboard.png)
+
 ## Tech Stack
 
 ### Frontend

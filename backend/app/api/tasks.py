@@ -52,6 +52,6 @@ def delete_task(task_id):
         return jsonify({
             "status": "success",
             "message": "Task deleted successfully"
-        }), 200
+        }), 204
     except Exception as e:
         return server_error('Something went wrong')

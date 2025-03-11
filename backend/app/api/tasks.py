@@ -1,4 +1,3 @@
-from app import app
 from . import api
 from flask import jsonify, request
 import uuid

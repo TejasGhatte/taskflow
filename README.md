@@ -80,3 +80,8 @@ This application was developed with a focus on:
 2. Separation of concerns between frontend and backend
 3. Simple but effective UI/UX
 4. RESTful API design
+
+## Conclusion
+TaskFlow was developed as a minimal full-stack task management application as a hiring task for Loadminds, focusing on clean architecture and seamless interaction between the React frontend and Flask backend. It provides essential task operations through a RESTful API while maintaining a simple yet effective UI.
+
+Thank you for this opportunity, I am eager to contribute in Loadminds!

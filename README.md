@@ -39,7 +39,7 @@ The application consists of a React frontend for the user interface and a Flask 
 |--------|----------|-------------|
 | GET | /api/tasks | Get all tasks |
 | POST | /api/tasks | Create a new task |
-| DELETE | /api/tasks/<id> | Delete a task by ID |
+| DELETE | /api/tasks/:task_id | Delete a task by ID |
 
 
 ## Setup and Installation

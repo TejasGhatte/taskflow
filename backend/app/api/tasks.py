@@ -1,17 +1,19 @@
-from flask import Flask, jsonify, request
-from flask_cors import CORS
+from app import app
+from . import api
+from flask import jsonify, request
 import uuid
 
-app = Flask(__name__)
-CORS(app)
+tasks = [
+    {"id": str(uuid.uuid4()), "title": "Complete project setup"},
+    {"id": str(uuid.uuid4()), "title": "Implement backend APIs"},
+    {"id": str(uuid.uuid4()), "title": "Create React frontend"}
+]
 
-tasks = []
-
-@app.route('/api/tasks', methods=['GET'])
+@api.route('/tasks', methods=['GET'])
 def get_tasks():
     return jsonify(tasks)
 
-@app.route('/api/tasks', methods=['POST'])
+@api.route('/tasks', methods=['POST'])
 def create_task():
     data = request.json
     
@@ -26,7 +28,7 @@ def create_task():
     tasks.append(new_task)
     return jsonify(new_task), 201
 
-@app.route('/api/tasks/<task_id>', methods=['DELETE'])
+@api.route('/tasks/<task_id>', methods=['DELETE'])
 def delete_task(task_id):
     global tasks
     original_length = len(tasks)
@@ -36,12 +38,3 @@ def delete_task(task_id):
         return jsonify({"error": "Task not found"}), 404
     
     return jsonify({"message": "Task deleted successfully"}), 200
-
-if __name__ == '__main__':
-
-    tasks = [
-        {"id": str(uuid.uuid4()), "title": "Complete project setup"},
-        {"id": str(uuid.uuid4()), "title": "Implement backend APIs"},
-        {"id": str(uuid.uuid4()), "title": "Create React frontend"}
-    ]
-    app.run(debug=True)

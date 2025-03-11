@@ -1,7 +1,8 @@
 from . import api
 from flask import jsonify, request
+from app import logger
 from app.exceptions import ValidationError
-from .errors import bad_request, server_error
+from .errors import server_error, not_found
 import uuid
 
 tasks = [
@@ -19,25 +20,25 @@ def get_tasks():
 
 @api.route('/tasks', methods=['POST'])
 def create_task():
-    try:
-        data = request.json
+    data = request.json
+
+    if not data or 'title' not in data:
+        raise ValidationError('Title is required')
     
-        if not data or 'title' not in data:
-            raise ValidationError('Title is required')
-        
-        new_task = {
-            "id": str(uuid.uuid4()), 
-            "title": data['title']
-        }
-        
-        tasks.append(new_task)
-        return jsonify({
-            "status": "success",
-            "message": "Task created successfully",
-            "task": new_task
-        }), 201
-    except Exception as e:
-        return server_error('Something went wrong')
+    if data.get('title', '').strip() == '':
+        raise ValidationError('Title is required')
+    
+    new_task = {
+        "id": str(uuid.uuid4()), 
+        "title": data['title']
+    }
+    
+    tasks.append(new_task)
+    return jsonify({
+        "status": "success",
+        "message": "Task created successfully",
+        "task": new_task
+    }), 201
 
 @api.route('/tasks/<task_id>', methods=['DELETE'])
 def delete_task(task_id):
@@ -47,11 +48,12 @@ def delete_task(task_id):
         tasks = [task for task in tasks if task['id'] != task_id]
         
         if len(tasks) == original_length:
-            return bad_request('Task not found')
+            return not_found('Task not found')
         
         return jsonify({
             "status": "success",
             "message": "Task deleted successfully"
         }), 204
     except Exception as e:
+        logger.error(e)
         return server_error('Something went wrong')
